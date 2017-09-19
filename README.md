@@ -1,2 +1,1 @@
-# easy-rocketmq
-An easy to use .NET API for RocketMQ
+对阿里云.net 客户端ons的进一步封装，ons是基于cpp dll的PInvoke调用封装，使用起来非常不方便，因此对ons进一步封装，方程序调用便
