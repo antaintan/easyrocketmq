@@ -76,7 +76,7 @@ namespace EasyRocketMQ.Producers
 
             if (deliveryTime.HasValue)
             {
-                message.setStartDeliverTime((long)(deliveryTime.Value.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+                message.setStartDeliverTime(deliveryTime.Value.ToTimestamp());
             }
 
             try
@@ -87,7 +87,7 @@ namespace EasyRocketMQ.Producers
                 }
                 else
                 {
-                    var sendResult = producer.send(message);
+                    producer.send(message);
                 }
 
                 // log here
@@ -95,6 +95,7 @@ namespace EasyRocketMQ.Producers
             catch (Exception ex)
             {
                 // log exception here
+                throw ex;
             }
         }
     }

@@ -67,6 +67,7 @@
     <Compile Include="Consumers\OrderConsumerClient.cs" />
     <Compile Include="Consumers\PullConsumerClient.cs" />
     <Compile Include="Consumers\PushConsumerClient.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Producers\ExtendedLocalTransactionChecker.cs" />
     <Compile Include="Producers\ExtendedLocalTransactionExecuter.cs" />
     <Compile Include="Producers\OrderProducerClient.cs" />
