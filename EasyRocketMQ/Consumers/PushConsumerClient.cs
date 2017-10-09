@@ -22,9 +22,6 @@ namespace EasyRocketMQ.Consumers
                                      string subExpression = "*", int consumerThreadCount = 10)
             : base(accessKeyId, accessKeySecret, topic, consumerId, subExpression, consumerThreadCount)
         {
-            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumerId, consumerId);
-            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumeThreadNums, this.ConsumerThreadCount.ToString());
-            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.SendMsgRetryTimes, "20");
         }
 
         public override void Start()

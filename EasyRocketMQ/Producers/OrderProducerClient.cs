@@ -1,5 +1,6 @@
 ﻿using ons;
 using System;
+using System.Text;
 
 namespace EasyRocketMQ.Producers
 {
@@ -34,23 +35,20 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="content">消息内容</param>
         /// <param name="tag">消息标签</param>
-        public override void SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
-            var message = new Message(topic, tag, content);
+            var message = new Message(topic, tag, string.Empty);
+
+            var bodyData = Encoding.UTF8.GetBytes(content);
+            message.setBody(bodyData, bodyData.Length);
+
             message.setKey(tag + "_" + Guid.NewGuid().ToString("N"));
 
-            try
-            {
-                var sendResult = producer.send(message, shardingKey);
-                // TODO: write log here, sendResult.getMessageId
-            }
-            catch (Exception ex)
-            {
-                // TODO: write exception here
-            }
+            var sendResult = producer.send(message, shardingKey);
+            return sendResult.getMessageId();
         }
 
-        public override void SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = default(DateTime?), string shardingKey = "")
+        public override string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
             throw new NotSupportedException("顺序消息不支持Oneway发送");
         }

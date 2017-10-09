@@ -1,4 +1,6 @@
-﻿namespace EasyRocketMQ.Consumers
+﻿using ons;
+
+namespace EasyRocketMQ.Consumers
 {
     /// <summary>
     /// 消息者基类
@@ -25,7 +27,7 @@
         /// </summary>
         protected int ConsumerThreadCount { get; set; } = 10;
 
-        public ConsumerClientBase(string accessKeyId, string accessKeySecret, string topic, string consumerId,
+        protected ConsumerClientBase(string accessKeyId, string accessKeySecret, string topic, string consumerId,
                                     string subExpression = "*", int consumerThreadCount = 10)
             : base(accessKeyId, accessKeySecret)
         {
@@ -33,6 +35,10 @@
             this.Topic = topic;
             this.SubExpression = subExpression;
             this.ConsumerThreadCount = consumerThreadCount;
+
+            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumerId, consumerId);
+            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumeThreadNums, this.ConsumerThreadCount.ToString());
+            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.SendMsgRetryTimes, "20");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace EasyRocketMQ.Consumers
 
         public override void Start()
         {
-            consumer = new PullConsumer();
+            consumer = ONSFactory.getInstance().createPullConsumer(this.FactoryProperty);
             consumer.start();
         }
     }

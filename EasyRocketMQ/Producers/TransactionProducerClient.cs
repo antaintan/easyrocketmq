@@ -29,18 +29,20 @@ namespace EasyRocketMQ.Producers
             producer.shutdown();
         }
 
-        public override void SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
             var message = new Message(topic, tag, tag + "_" + Guid.NewGuid().ToString("N"), content);
 
-            producer.send(message, new ExtendedLocalTransactionExecuter(msg => {
+            var result = producer.send(message, new ExtendedLocalTransactionExecuter(msg => {
                 // 本地事务执行
 
                 return true;
             }));
+
+            return result.getMessageId();
         }
 
-        public override void SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
             throw new NotSupportedException("事务消息不支持Oneway发送");
         }

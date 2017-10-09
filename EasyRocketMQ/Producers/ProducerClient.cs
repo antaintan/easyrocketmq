@@ -38,9 +38,9 @@ namespace EasyRocketMQ.Producers
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
-        public override void SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
-            Send(topic, content, tag, deliveryTime, shardingKey);
+            return Send(topic, content, tag, deliveryTime, shardingKey);
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace EasyRocketMQ.Producers
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
-        public override void SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
-            Send(topic, content, tag, deliveryTime, shardingKey, true);
+            return Send(topic, content, tag, deliveryTime, shardingKey, true);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace EasyRocketMQ.Producers
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
         /// <param name="isOneway">是否为oneway发送</param>
-        private void Send(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "", bool isOneway = false)
+        private string Send(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "", bool isOneway = false)
         {
             var message = new Message(topic, tag, string.Empty);
 
@@ -79,23 +79,15 @@ namespace EasyRocketMQ.Producers
                 message.setStartDeliverTime(deliveryTime.Value.ToTimestamp());
             }
 
-            try
+            if (isOneway)
             {
-                if (isOneway)
-                {
-                    producer.sendOneway(message);
-                }
-                else
-                {
-                    producer.send(message);
-                }
-
-                // log here
+                producer.sendOneway(message);
+                return string.Empty;
             }
-            catch (Exception ex)
+            else
             {
-                // log exception here
-                throw ex;
+                producer.send(message);
+                return message.getMsgID();
             }
         }
     }
