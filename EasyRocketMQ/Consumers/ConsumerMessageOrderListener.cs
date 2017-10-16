@@ -11,7 +11,7 @@ namespace EasyRocketMQ.Consumers
         /// <summary>
         /// 消费消息的方法
         /// </summary>
-        private Func<Message, ConsumeOrderContext, OrderAction> consumeFunc;
+        private readonly Func<Message, ConsumeOrderContext, OrderAction> consumeFunc;
 
         public ConsumerMessageOrderListener(Func<Message, ConsumeOrderContext, OrderAction> consumeFunc)
         {

@@ -18,7 +18,7 @@ namespace EasyRocketMQ.Consumers
         protected string Topic { get; private set; }
 
         /// <summary>
-        /// 子表达式
+        /// 子表达式, Tag的过滤，全部使用*, 多个TagA||TagB
         /// </summary>
         protected string SubExpression { get; private set; }
 
@@ -38,7 +38,6 @@ namespace EasyRocketMQ.Consumers
 
             this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumerId, consumerId);
             this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.ConsumeThreadNums, this.ConsumerThreadCount.ToString());
-            this.FactoryProperty.setFactoryProperty(ONSFactoryProperty.SendMsgRetryTimes, "20");
         }
     }
 }

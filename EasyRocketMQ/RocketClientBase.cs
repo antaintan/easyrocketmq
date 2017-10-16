@@ -46,7 +46,7 @@ namespace EasyRocketMQ
         /// </summary>
         /// <param name="accessKeyId">访问服务器的KeyId</param>
         /// <param name="accessKeySecret">访问服务器的密钥</param>
-        public RocketClientBase(string accessKeyId, string accessKeySecret)
+        protected RocketClientBase(string accessKeyId, string accessKeySecret)
         {
             this.AccessKeyId = accessKeyId;
             this.AccessKeySecret = accessKeySecret;

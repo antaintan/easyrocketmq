@@ -9,23 +9,25 @@ namespace EasyRocketMQ.Sample.Producer
 {
     internal class Program
     {
-        private static readonly string AccessKeyId = "LTAIspikO0gRSqC5";
+        private static readonly string AccessKeyId = "xxxxxxxxx";
 
-        private static readonly string AccessKeySecret = "Y3l9MVqQsdM2OnOTs7v5dalcPNZXGJ";
+        private static readonly string AccessKeySecret = "xxxxxxxxx";
 
         /// <summary>
         /// 每线程发送消息数量
         /// </summary>
-        private static readonly int MessageCountPerThread = 10;
+        private static readonly int MessageCountPerThread = 3;
 
-        private static readonly string ProducerId = "PID_testpay_producer1";
+        private static readonly string ProducerId = "xxxxxxxxx";
 
         /// <summary>
         /// 线程总数
         /// </summary>
-        private static readonly int ProducerThreadCount = 20;
+        private static readonly int ProducerThreadCount = 2;
 
-        private static readonly string Topic = "testpay";
+        private static readonly string Topic = "xxxxxxxxx";
+
+        private static readonly string ShardingKey = "xxxxxxxxx";
 
         /// <summary>
         /// 需要静态对象
@@ -47,7 +49,7 @@ namespace EasyRocketMQ.Sample.Producer
                     for (int messageIndex = 1; messageIndex <= MessageCountPerThread; messageIndex++)
                     {
                         string content = "线程ID=" + Thread.CurrentThread.ManagedThreadId + ", 我要测试rocketmq message";
-                        producerClient.SendMessage(Topic, content, "MQ");
+                        producerClient.SendMessage(Topic, content, Guid.NewGuid().ToString(), "mqtest", null, ShardingKey);
 
                         Console.WriteLine(content);
                     }

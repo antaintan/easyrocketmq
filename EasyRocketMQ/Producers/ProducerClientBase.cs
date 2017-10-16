@@ -25,19 +25,21 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="topic">消息主题</param>
         /// <param name="content">消息内容</param>
+        /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">消息标签</param>
         /// <param name="deliveryTime">投递的时间</param>
         /// <param name="shardingKey">分片Key</param>
-        public abstract string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "");
+        public abstract string SendMessage(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "");
 
         /// <summary>
         /// 发送单向消息，无消息Id返回
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">内容</param>
+        /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投递时间</param>
         /// <param name="shardingKey">分区key</param>
-        public abstract string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "");
+        public abstract string SendMessageByOneway(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "");
     }
 }

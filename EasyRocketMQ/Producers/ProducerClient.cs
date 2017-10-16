@@ -35,12 +35,13 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">发送内容</param>
+        /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
-        public override string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessage(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
-            return Send(topic, content, tag, deliveryTime, shardingKey);
+            return Send(topic, content, key, tag, deliveryTime, shardingKey);
         }
 
         /// <summary>
@@ -48,12 +49,13 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">发送内容</param>
+        /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
-        public override string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessageByOneway(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
-            return Send(topic, content, tag, deliveryTime, shardingKey, true);
+            return Send(topic, content, key, tag, deliveryTime, shardingKey, true);
         }
 
         /// <summary>
@@ -61,18 +63,20 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">发送内容</param>
+        /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">标签</param>
         /// <param name="deliveryTime">投送时间</param>
         /// <param name="shardingKey">分区key</param>
         /// <param name="isOneway">是否为oneway发送</param>
-        private string Send(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "", bool isOneway = false)
+        private string Send(string topic, string content, string key, string tag = "", DateTime? deliveryTime = null, string shardingKey = "", bool isOneway = false)
         {
             var message = new Message(topic, tag, string.Empty);
 
             var bodyData = Encoding.UTF8.GetBytes(content);
             message.setBody(bodyData, bodyData.Length);
 
-            message.setKey(tag + "_" + Guid.NewGuid().ToString("N"));
+            // 消息key
+            message.setKey(key);
 
             if (deliveryTime.HasValue)
             {

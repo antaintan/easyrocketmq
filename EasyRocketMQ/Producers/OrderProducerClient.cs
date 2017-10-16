@@ -35,20 +35,20 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="content">消息内容</param>
         /// <param name="tag">消息标签</param>
-        public override string SendMessage(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessage(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
             var message = new Message(topic, tag, string.Empty);
 
             var bodyData = Encoding.UTF8.GetBytes(content);
             message.setBody(bodyData, bodyData.Length);
 
-            message.setKey(tag + "_" + Guid.NewGuid().ToString("N"));
+            message.setKey(key);
 
             var sendResult = producer.send(message, shardingKey);
             return sendResult.getMessageId();
         }
 
-        public override string SendMessageByOneway(string topic, string content, string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public override string SendMessageByOneway(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
         {
             throw new NotSupportedException("顺序消息不支持Oneway发送");
         }
