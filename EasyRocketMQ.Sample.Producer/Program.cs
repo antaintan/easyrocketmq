@@ -9,23 +9,23 @@ namespace EasyRocketMQ.Sample.Producer
 {
     internal class Program
     {
-        private static readonly string AccessKeyId = "LTAIspikO0gRSqC5";
+        private static readonly string AccessKeyId = "xxxxxxxxxxxx";
 
-        private static readonly string AccessKeySecret = "Y3l9MVqQsdM2OnOTs7v5dalcPNZXGJ";
+        private static readonly string AccessKeySecret = "xxxxxxxxxxxx";
 
         /// <summary>
         /// 每线程发送消息数量
         /// </summary>
         private static readonly int MessageCountPerThread = 10;
 
-        private static readonly string ProducerId = "PID_testpay_producer1";
+        private static readonly string ProducerId = "xxxxxxxxxxxx";
 
         /// <summary>
         /// 线程总数
         /// </summary>
         private static readonly int ProducerThreadCount = 20;
 
-        private static readonly string Topic = "testpay";
+        private static readonly string Topic = "xxxxxxxxxxxx";
 
         /// <summary>
         /// 需要静态对象
