@@ -31,68 +31,66 @@ namespace EasyRocketMQ.Producers
         }
 
         /// <summary>
-        /// 生产顺序消息
+        /// 使用oneway方式发送
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">发送内容</param>
+        /// <param name="tag">标签</param>        
         /// <param name="key">消息key, 要做到局唯一</param>
-        /// <param name="tag">标签</param>
-        /// <param name="deliveryTime">投送时间</param>
-        /// <param name="shardingKey">分区key</param>
-        public override string SendMessage(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        public void SendOnewayMessage(string topic, string content, string tag = "", string key = "")
         {
-            return Send(topic, content, key, tag, deliveryTime, shardingKey);
+            var message = ComposeMessage(topic, content, tag, key);
+            producer.sendOneway(message);
         }
 
         /// <summary>
-        /// 生产顺序消息并使用oneway方式发送
+        /// 发送单向定时消息
         /// </summary>
         /// <param name="topic">主题</param>
-        /// <param name="content">发送内容</param>
-        /// <param name="key">消息key, 要做到局唯一</param>
-        /// <param name="tag">标签</param>
+        /// <param name="content">内容</param>
         /// <param name="deliveryTime">投送时间</param>
-        /// <param name="shardingKey">分区key</param>
-        public override string SendMessageByOneway(string topic, string content, string key = "", string tag = "", DateTime? deliveryTime = null, string shardingKey = "")
+        /// <param name="tag">标签</param>
+        /// <param name="key">消息Key</param>
+        public void SendOnewayAndTimingMessage(string topic, string content, DateTime deliveryTime, string tag = "", string key = "")
         {
-            return Send(topic, content, key, tag, deliveryTime, shardingKey, true);
+            var message = ComposeMessage(topic, content, tag, key);
+            message.setStartDeliverTime(deliveryTime.ToTimestamp());
+
+            producer.sendOneway(message);
         }
 
         /// <summary>
-        /// 内容消息发送实现方法
+        /// 发送定时消息
         /// </summary>
         /// <param name="topic">主题</param>
-        /// <param name="content">发送内容</param>
+        /// <param name="content">内容</param>
+        /// <param name="deliveryTime">投送时间</param>
+        /// <param name="tag">标签</param>
+        /// <param name="key">消息Key</param>
+        public string SendTimingMessage(string topic, string content, DateTime deliveryTime, string tag = "", string key = "")
+        {
+            var message = ComposeMessage(topic, content, tag, key);
+            message.setStartDeliverTime(deliveryTime.ToTimestamp());
+
+            var result = producer.send(message);
+
+            return result.getMessageId();
+        }
+
+        /// <summary>
+        /// 发送普通消息
+        /// </summary>
+        /// <param name="topic">主题</param>
+        /// <param name="content">内容</param>
         /// <param name="key">消息key, 要做到局唯一</param>
         /// <param name="tag">标签</param>
-        /// <param name="deliveryTime">投送时间</param>
-        /// <param name="shardingKey">分区key</param>
-        /// <param name="isOneway">是否为oneway发送</param>
-        private string Send(string topic, string content, string key, string tag = "", DateTime? deliveryTime = null, string shardingKey = "", bool isOneway = false)
+        public string SendMessage(string topic, string content, string tag = "", string key = "")
         {
-            var message = new Message(topic, tag, string.Empty);
+            var message = ComposeMessage(topic, content, tag, key);
 
-            var bodyData = Encoding.UTF8.GetBytes(content);
-            message.setBody(bodyData, bodyData.Length);
+            var result = producer.send(message);
 
-            // 消息key
-            message.setKey(key);
-
-            if (deliveryTime.HasValue)
-            {
-                message.setStartDeliverTime(deliveryTime.Value.ToTimestamp());
-            }
-
-            if (isOneway)
-            {
-                producer.sendOneway(message);
-                return string.Empty;
-            }
-            else
-            {
-                producer.send(message);
-                return message.getMsgID();
-            }
+            return result.getMessageId();
         }
     }
 }

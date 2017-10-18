@@ -1,5 +1,6 @@
 ﻿using ons;
 using System;
+using System.Text;
 
 namespace EasyRocketMQ
 {

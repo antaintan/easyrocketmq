@@ -11,7 +11,7 @@ namespace EasyRocketMQ.Producers
         /// <summary>
         /// 事务检查方法
         /// </summary>
-        private Func<Message, TransactionStatus> checkFunc;
+        private readonly Func<Message, TransactionStatus> checkFunc;
 
         public ExtendedLocalTransactionChecker(Func<Message, TransactionStatus> checkFunc)
         {
