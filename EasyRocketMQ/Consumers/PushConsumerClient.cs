@@ -18,6 +18,11 @@ namespace EasyRocketMQ.Consumers
         /// </summary>
         private Func<Message, ConsumeContext, ons.Action> consumeFunc;
 
+        /// <summary>
+        /// 消息监听器
+        /// </summary>
+        private MessageListener listener;
+
         public PushConsumerClient(string accessKeyId, string accessKeySecret, string topic, string consumerId,
                                      string subExpression = "*", int consumerThreadCount = 10)
             : base(accessKeyId, accessKeySecret, topic, consumerId, subExpression, consumerThreadCount)
@@ -26,13 +31,13 @@ namespace EasyRocketMQ.Consumers
 
         public override void Start()
         {
-            if (this.consumeFunc == null)
+            if (this.listener == null)
             {
-                throw new Exception("没有设置消费方法，请调用SetConsumeFunc");
+                throw new NotFoundMessageListenerException();
             }
 
             consumer = ONSFactory.getInstance().createPushConsumer(this.FactoryProperty);
-            consumer.subscribe(Topic, SubExpression, new ConsumerMessageListener(this.consumeFunc));
+            consumer.subscribe(Topic, SubExpression, listener);
             consumer.start();
         }
 
@@ -42,12 +47,12 @@ namespace EasyRocketMQ.Consumers
         }
 
         /// <summary>
-        /// 设置消费消息的方法回调, 调用Start方法时，必需调用此方法来设置消费回调
+        /// 设置消息监听器
         /// </summary>
-        /// <param name="consumeFunc">消费方法</param>
-        public void SetConsumeFunc(Func<Message, ConsumeContext, ons.Action> consumeFunc)
+        /// <param name="listener"></param>
+        public void setMessageListener(MessageListener listener)
         {
-            this.consumeFunc = consumeFunc;
+            this.listener = listener;
         }
     }
 }
