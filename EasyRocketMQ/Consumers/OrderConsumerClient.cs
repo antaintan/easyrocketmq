@@ -1,5 +1,4 @@
 ﻿using ons;
-using System;
 
 namespace EasyRocketMQ.Consumers
 {

@@ -1,6 +1,4 @@
 ﻿using ons;
-using System;
-using System.Text;
 
 namespace EasyRocketMQ.Producers
 {
@@ -35,7 +33,7 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="shardingKey">分区Key</param>
         /// <param name="topic">主题</param>
-        /// <param name="content">内容</param>        
+        /// <param name="content">内容</param>
         /// <param name="tag">消息标签</param>
         /// <param name="key">消息Key</param>
         /// <returns></returns>

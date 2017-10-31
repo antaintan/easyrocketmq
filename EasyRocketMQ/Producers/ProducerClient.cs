@@ -1,6 +1,5 @@
 ﻿using ons;
 using System;
-using System.Text;
 
 namespace EasyRocketMQ.Producers
 {
@@ -35,7 +34,7 @@ namespace EasyRocketMQ.Producers
         /// </summary>
         /// <param name="topic">主题</param>
         /// <param name="content">发送内容</param>
-        /// <param name="tag">标签</param>        
+        /// <param name="tag">标签</param>
         /// <param name="key">消息key, 要做到局唯一</param>
         public void SendOnewayMessage(string topic, string content, string tag = "", string key = "")
         {

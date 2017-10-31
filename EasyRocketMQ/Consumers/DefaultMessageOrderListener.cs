@@ -1,5 +1,4 @@
 ﻿using ons;
-using System;
 
 namespace EasyRocketMQ.Consumers
 {
@@ -8,6 +7,5 @@ namespace EasyRocketMQ.Consumers
     /// </summary>
     public abstract class DefaultMessageOrderListener : MessageOrderListener
     {
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ons;
-using System;
 
 namespace EasyRocketMQ.Consumers
 {
@@ -12,11 +11,6 @@ namespace EasyRocketMQ.Consumers
         /// 真正的消费者
         /// </summary>
         protected PushConsumer consumer;
-
-        /// <summary>
-        /// 消费方法
-        /// </summary>
-        private Func<Message, ConsumeContext, ons.Action> consumeFunc;
 
         /// <summary>
         /// 消息监听器

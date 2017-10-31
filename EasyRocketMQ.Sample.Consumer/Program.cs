@@ -48,10 +48,10 @@ namespace EasyRocketMQ.Sample.Consumer
         private static void Main(string[] args)
         {
             var listener = new MyMsgListener();
-            consumerClient.setMessageListener(listener);            
+            consumerClient.setMessageListener(listener);
 
             //var listener = new MyMsgOrderListener();
-            //consumerClient.setMessageListener(listener); 
+            //consumerClient.setMessageListener(listener);
 
             consumerClient.Start();
 

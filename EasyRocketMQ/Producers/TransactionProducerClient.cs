@@ -60,7 +60,7 @@ namespace EasyRocketMQ.Producers
         public string SendTimingMessage(string topic, string content, Func<Message, bool> bizFunc, DateTime deliveryTime, string tag = "", string key = "")
         {
             var message = ComposeMessage(topic, content, tag, key);
-            message.setStartDeliverTime(deliveryTime.ToTimestamp());            
+            message.setStartDeliverTime(deliveryTime.ToTimestamp());
 
             var result = producer.send(message, new ExtendedLocalTransactionExecuter(bizFunc));
 
