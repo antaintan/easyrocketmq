@@ -21,7 +21,7 @@ namespace EasyRocketMQ.Sample.Producer
         private static readonly string ProducerId = "xxxxxxxxxxxxxxxxxx";
 
         /// <summary>
-        /// 线程总数
+        /// 线程总数iwg
         /// </summary>
         private static readonly int ProducerThreadCount = 2;
 
