@@ -52,16 +52,7 @@
                 return ons.Action.CommitMessage;
             }
         }
-
-        private class MyMsgOrderListener : DefaultMessageOrderListener
-        {
-            public override OrderAction consume(Message message, ConsumeOrderContext context)
-            {
-                Console.WriteLine("消息序号: {0}, 当前线程ID = {1}, 内容为： {2}", ++count, Thread.CurrentThread.ManagedThreadId, message.getBody());
-                return ons.OrderAction.Success;
-            }
-        }
-
+        
         private static void Main(string[] args)
         {
             var listener = new MyMsgListener();
